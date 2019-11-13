@@ -91,7 +91,7 @@ function mod:UpdateButton(event, button)
         local ignoreHighLevel = false
 		local level
 
-        if reqLevel > 0 and not isMaxLevel(playerLevel) then
+        if reqLevel and reqLevel > 0 and not isMaxLevel(playerLevel) then
             level = reqLevel
         elseif item then
             level = item:GetCurrentItemLevel()
