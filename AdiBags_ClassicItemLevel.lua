@@ -219,7 +219,7 @@ function getTextColor(playerLevel, level, ignoreHighLevel, quality, equipabble)
         elseif delta > 8 then
             color = QuestDifficultyColors.trivial
         else
-            return 1, 1, 1
+            return GetItemQualityColor(quality)
         end
         return color.r, color.g, color.b
     else
