@@ -3,9 +3,9 @@ local _, ns = ...
 local addon = LibStub('AceAddon-3.0'):GetAddon('AdiBags')
 local L = setmetatable({}, {__index = addon.L})
 
-local module = addon:NewModule("ClassicItemLevel", 'ABEvent-1.0')
-module.uiName = L['Classic item level']
-module.uiDesc = L['Adds Classic-compatable item level text to items']
+local mod = addon:NewModule("ClassicItemLevel", 'ABEvent-1.0')
+mod.uiName = L['Classic item level']
+mod.uiDesc = L['Adds Classic-compatable item level text to items']
 
 local texts = {}
 local maxLevelColors = {}
@@ -17,7 +17,7 @@ do
     t[10], t[11], t[12] = GetItemQualityColor(5)
 end
 
-function module:OnInitialize()
+function mod:OnInitialize()
 	self.db = addon.db:RegisterNamespace(self.moduleName, {
 		profile = {
 			equippableOnly = true,
@@ -27,18 +27,18 @@ function module:OnInitialize()
 	})
 end
 
-function module:OnEnable()
+function mod:OnEnable()
 	self:RegisterMessage('AdiBags_UpdateButton', 'UpdateButton')
 	self:SendMessage('AdiBags_UpdateAllButtons')
 end
 
-function module:OnDisable()
+function mod:OnDisable()
 	for _, text in pairs(texts) do
 		text:Hide()
 	end
 end
 
-function module:GetOptions()
+function mod:GetOptions()
 	return {
 		equippableOnly = {
 			name = L['Only equippable items'],
@@ -77,7 +77,7 @@ local function isMaxLevel(level)
     return level == 60
 end
 
-function module:UpdateButton(event, button)
+function mod:UpdateButton(event, button)
     local settings = self.db.profile
 	local link = button:GetItemLink()
 	local text = texts[button]
