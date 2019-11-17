@@ -7,7 +7,6 @@ local mod = addon:NewModule("ClassicItemLevel", 'ABEvent-1.0')
 mod.uiName = L['Classic item level']
 mod.uiDesc = L['Adds Classic-compatable item level text to items']
 
-local texts = {}
 local maxLevelColors = {}
 do
     local t = maxLevelColors
@@ -33,9 +32,7 @@ function mod:OnEnable()
 end
 
 function mod:OnDisable()
-	for _, text in pairs(texts) do
-		text:Hide()
-	end
+	self:SendMessage('AdiBags_UpdateAllButtons')
 end
 
 function mod:GetOptions()
@@ -67,9 +64,10 @@ end
 
 local function CreateText(button)
 	local text = button:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
-	text:SetPoint("TOPLEFT", button, 3, -1)
-	text:Hide()
-	texts[button] = text
+	text:SetPoint("TOPLEFT", button, 3, -2)
+    text:SetAlpha(1)
+	text:Show()
+    button.ClassicItemLevelText = text
 	return text
 end
 
@@ -80,7 +78,7 @@ end
 function mod:UpdateButton(event, button)
     local settings = self.db.profile
 	local link = button:GetItemLink()
-	local text = texts[button]
+	local text = button.ClassicItemLevelText
 
 	if link then
 		local _, _, quality, _, reqLevel, _, _, _, loc = GetItemInfo(link)
@@ -107,11 +105,12 @@ function mod:UpdateButton(event, button)
 			end
 			text:SetText(level)
 			text:SetTextColor(getTextColor(playerLevel, level, ignoreHighLevel, quality, (loc ~= "")))
-			return text:Show()
+			text:SetAlpha(1)
+            return
 		end
 	end
 	if text then
-		text:Hide()
+		text:SetAlpha(0)
 	end
 end
 
