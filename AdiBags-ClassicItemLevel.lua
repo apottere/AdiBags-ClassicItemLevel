@@ -3,11 +3,9 @@ local _, ns = ...
 local addon = LibStub('AceAddon-3.0'):GetAddon('AdiBags')
 local L = setmetatable({}, {__index = addon.L})
 
--- The filter itself
--- Use a priority slightly higher than the Gear Manager filter one
-local mod = addon:NewModule("Test", 'ABEvent-1.0')
-mod.uiName = L['Test']
-mod.uiDesc = L['Test']
+local module = addon:NewModule("ClassicItemLevel", 'ABEvent-1.0')
+module.uiName = L['Classic item level']
+module.uiDesc = L['Adds Classic-compatable item level text to items']
 
 local texts = {}
 local maxLevelColors = {}
@@ -19,7 +17,7 @@ do
     t[10], t[11], t[12] = GetItemQualityColor(5)
 end
 
-function mod:OnInitialize()
+function module:OnInitialize()
 	self.db = addon.db:RegisterNamespace(self.moduleName, {
 		profile = {
 			equippableOnly = true,
@@ -29,18 +27,18 @@ function mod:OnInitialize()
 	})
 end
 
-function mod:OnEnable()
+function module:OnEnable()
 	self:RegisterMessage('AdiBags_UpdateButton', 'UpdateButton')
 	self:SendMessage('AdiBags_UpdateAllButtons')
 end
 
-function mod:OnDisable()
+function module:OnDisable()
 	for _, text in pairs(texts) do
 		text:Hide()
 	end
 end
 
-function mod:GetOptions()
+function module:GetOptions()
 	return {
 		equippableOnly = {
 			name = L['Only equippable items'],
@@ -79,7 +77,7 @@ local function isMaxLevel(level)
     return level == 60
 end
 
-function mod:UpdateButton(event, button)
+function module:UpdateButton(event, button)
     local settings = self.db.profile
 	local link = button:GetItemLink()
 	local text = texts[button]
@@ -202,7 +200,6 @@ end
 function getTextColor(playerLevel, level, ignoreHighLevel, quality, equipabble)
     if not equipabble then return 1,1,1 end
     if isMaxLevel(playerLevel) then
-        -- Use the item level range for that level
         local minLevel = 58
         local maxLevel = 90
 
@@ -223,7 +220,6 @@ function getTextColor(playerLevel, level, ignoreHighLevel, quality, equipabble)
         end
         return color.r, color.g, color.b
     else
-        -- Would this happen ?
         return 1, 1, 1
     end
 end
