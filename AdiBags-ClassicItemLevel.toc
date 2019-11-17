@@ -1,9 +1,9 @@
 ## Interface: 11302
 
-## Title: AdiBags_ClassicItemLevel
+## Title: AdiBags - ClassicItemLevel
 ## Author: apottere
 ## Version: 1.0
 
 ## Dependencies: AdiBags
 
-AdiBags_ClassicItemLevel.lua
+AdiBags-ClassicItemLevel.lua
