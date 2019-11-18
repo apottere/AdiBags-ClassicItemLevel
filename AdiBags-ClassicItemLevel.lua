@@ -85,14 +85,16 @@ function mod:UpdateButton(event, button)
 		local item = Item:CreateFromBagAndSlot(button.bag, button.slot)
         local playerLevel = UnitLevel('player')
         local ignoreHighLevel = false
-		local level
+		local level = nil
 
         if reqLevel and reqLevel > 0 and not isMaxLevel(playerLevel) then
             level = reqLevel
         elseif item then
             level = item:GetCurrentItemLevel()
             ignoreHighLevel = true
-        else
+        end
+
+        if level == nil then
             level = 0
         end
 
